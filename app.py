@@ -8,16 +8,16 @@ from flask import jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-
 CORS(app)
 
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/cowfeedcalculator')
+@app.route('/cowfeedcalculator', methods=["GET", "POST"])
 def cowfeedcalculator():
-    return jsonify([{'Name': 'Julian'}, {'Name': 'Julian'}, {'Name': 'Julian'}])
+    response = jsonify([{'Name': 'Julian'}, {'Name': 'Julian'}, {'Name': 'Julian'}])
+    return response
 
 if __name__ == "__main__":
     cert_file = os.getenv('FLASK_CERT', '') # fullchain.pem
