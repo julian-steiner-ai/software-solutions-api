@@ -4,6 +4,8 @@ Julian Steiner Software Solutions Backend.
 
 import os
 
+import ssl
+
 from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
@@ -41,9 +43,10 @@ def save_calculation():
     ))
 
 if __name__ == "__main__":
-    cert_file = os.getenv('FLASK_CERT', 'Test') # fullchain.pem
-    key_file = os.getenv('FLASK_CERT_KEY', 'Test') # privatekey.pem
+    cert_file = os.getenv('FLASK_CERT', '') # fullchain.pem
+    key_file = os.getenv('FLASK_CERT_KEY', '') # privatekey.pem
 
-    ssl_context = (cert_file, key_file)
+    ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+    ctx.load_cert_chain(cert_file, key_file)
 
-    app.run(host='0.0.0.0', ssl_context=ssl_context)
+    app.run(host='0.0.0.0', ssl_context=ctx)
