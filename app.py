@@ -2,29 +2,37 @@
 """
 
 import os
-import json
 
 from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 
-from .cowfeedcalculator.cowfeedcalculator import CowFeedCalculator
+from cowfeedcalculator import CowFeedCalculator
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def hello_world():
+    """
+    Hello World example.
+    """
     return 'Hello, World!'
 
 @app.route('/cowfeedcalculator', methods=["GET", "POST"])
 def cowfeedcalculator():
+    """
+    Return the History for the Cow Feed Calculator.
+    """
     calc = CowFeedCalculator().get_all_calculations()
     calc_json = [x.to_json() for x in calc]
     return jsonify(calc_json)
 
 @app.route('/cowfeedcalculator/save', methods=['POST'])
 def save_calculation():
+    """
+    Save a new entry for the Cow Feed Calculator.
+    """
     return jsonify({'success': True})
 
 if __name__ == "__main__":
