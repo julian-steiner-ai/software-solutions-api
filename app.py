@@ -4,7 +4,7 @@ Julian Steiner Software Solutions Backend.
 
 import os
 
-import ssl
+from OpenSSL import SSL
 
 from datetime import date
 from flask import Flask, request
@@ -43,10 +43,14 @@ def save_calculation():
     ))
 
 if __name__ == "__main__":
-    cert_file = os.getenv('FLASK_CERT', '') # fullchain.pem
-    key_file = os.getenv('FLASK_CERT_KEY', '') # privatekey.pem
+    key_file = os.getenv('PRIVKEY_FILE', '') #privkey
+    fullchain_file = os.getenv('FULLCHAIN_FILE', '') #fullchain
+    cert_file = os.getenv('CERT_FILE', '') #cert
 
-    context = ssl.SSLContext()
-    context.load_cert_chain(cert_file, key_file)
+    context = SSL.Context(SSL.TLS1_3_VERSION)
+
+    context.use_privatekey_file(key_file)
+    context.use_certificate_chain_file(fullchain_file)
+    context.use_certificate_file(cert_file)
 
     app.run(ssl_context=context)
