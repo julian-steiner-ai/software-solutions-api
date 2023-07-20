@@ -23,12 +23,17 @@ def test():
     cert = ""
     cert1 = ""
 
-    with open(os.path.exists(os.getenv('FLASK_CERT', '')), 'r', encoding='UTF-8') as file:
-        cert = file.read()
+    try:
+        with open(os.path.exists(os.getenv('FLASK_CERT', '')), 'r', encoding='UTF-8') as file:
+            cert = file.read()
+    except Exception as exp:
+        cert = str(exp)
 
-    with open(os.path.exists(os.getenv('FLASK_CERT_KEY', '')), 'r', encoding='UTF-8') as file:
-        cert1 = file.read()
-        
+    try:
+        with open(os.path.exists(os.getenv('FLASK_CERT_KEY', '')), 'r', encoding='UTF-8') as file:
+            cert1 = file.read()
+    except Exception as exp:
+        cert1 = str(exp)
 
     return jsonify(
         {
