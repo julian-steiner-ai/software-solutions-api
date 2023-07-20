@@ -22,7 +22,9 @@ def test():
     return jsonify(
         {
             'CERT_FILE': os.getenv('FLASK_CERT', ''),
-            'KEY_FILE': os.getenv('FLASK_CERT_KEY', '')
+            'KEY_FILE': os.getenv('FLASK_CERT_KEY', ''),
+            'CERT_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT', '')),
+            'KEY_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT_KEY', ''))
         }
     )
 
