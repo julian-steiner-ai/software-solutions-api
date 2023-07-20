@@ -6,45 +6,16 @@ import os
 
 import ssl
 
+from datetime import date
 from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
-from datetime import date
 
 from cowfeedcalculator.cowfeedcalculator import CowFeedCalculator
 
 app = Flask(__name__)
 
 CORS(app)
-
-@app.route('/test', methods=['GET'])
-def test():
-
-    cert = ""
-    cert1 = ""
-
-    try:
-        with open(os.path.exists(os.getenv('FLASK_CERT', '')), 'r', encoding='UTF-8') as file:
-            cert = file.read()
-    except Exception as exp:
-        cert = str(exp)
-
-    try:
-        with open(os.path.exists(os.getenv('FLASK_CERT_KEY', '')), 'r', encoding='UTF-8') as file:
-            cert1 = file.read()
-    except Exception as exp:
-        cert1 = str(exp)
-
-    return jsonify(
-        {
-            'CERT_FILE': os.getenv('FLASK_CERT', ''),
-            'KEY_FILE': os.getenv('FLASK_CERT_KEY', ''),
-            'CERT_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT', '')),
-            'KEY_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT_KEY', '')),
-            'TEST': cert,
-            'TEST1': cert1
-        }
-    )
 
 @app.route('/cowfeedcalculator/calculations', methods=["GET", "POST"])
 def cowfeedcalculator():
@@ -78,4 +49,4 @@ if __name__ == "__main__":
     context = ssl.SSLContext()
     context.load_cert_chain(cert_file, key_file)
 
-    app.run(host='0.0.0.0', ssl_context=(cert_file, key_file))
+    app.run(host='0.0.0.0', ssl_context='adhoc')
