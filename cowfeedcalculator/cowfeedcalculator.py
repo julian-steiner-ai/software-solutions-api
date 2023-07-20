@@ -2,46 +2,51 @@
 Backend functions for Cow Feed Calculator.
 """
 
-from cowfeedcalculator.model.ration import Ration
-from cowfeedcalculator.model.feed_type import FeedType
-from cowfeedcalculator.model.calculation import Calculation
+from os import listdir
+from os.path import isfile, join, exists
+
+import json
 
 class CowFeedCalculator:
     """
     CowFeedCalculator.
     """
-    def get_all_calculations(self):
+    def get_all_calculations(self, directory):
         """
         Return all the saved calculations.
         """
-        return self._mock_data()
+        return self.read_history_files(directory)
 
-    def _mock_data(self):
-        trockensteher = Ration("Trockensteher", 100)
-        melkende = Ration("Melkende", 200)
+    def save_calculation(self, directory, filname, json_content):
+        """
+        Save a JSON Object from a Calculation in the directory.
+        """
+        try:
+            if exists(directory):
+                with open(join(directory, filname), "w", encoding="UTF-8") as file:
+                    json.dump(json_content, file)
+                    return {'success': True}
+            else:
+                return {'success': False, 'msg': f'Directory {directory} does not exist!'}
+        except Exception as exp:
+            return {'success': False, 'msg': str(exp)}
 
-        maissilage_trockensteher = FeedType(trockensteher, "Maissilage", 100, 50)
-        gras_trockensteher = FeedType(trockensteher, "Gras", 100, 50)
-
-        maissilage_melkende = FeedType(melkende, "Maissilage", 100, 50)
-        gras_melkende = FeedType(melkende, "Gras", 100, 50)
-
-        calc1 = Calculation("19072023")
-        calc1.add_feed_type(maissilage_trockensteher)
-        calc1.add_feed_type(gras_trockensteher)
-        calc1.add_feed_type(maissilage_melkende)
-        calc1.add_feed_type(gras_melkende)
-
-        calc2 = Calculation("20072023")
-        calc2.add_feed_type(maissilage_trockensteher)
-        calc2.add_feed_type(maissilage_melkende)
-
-        calc3 = Calculation("21072023")
-        calc3.add_feed_type(gras_trockensteher)
-        calc3.add_feed_type(gras_melkende)
-
-        return [
-            calc1,
-            calc2,
-            calc3
-        ]
+    def read_history_files(self, directory):
+        """
+        Read all the Files and Return the content as JSON.
+        """
+        data = []
+        try:
+            if exists(directory):
+                for path in listdir(directory):
+                    if isfile(join(directory, path)):
+                        with open(join(directory, path), 'r', encoding='UTF-8') as file:
+                            data.append({
+                                'name': path,
+                                'feedTypes': file.read()
+                            })
+                return {'success': True, 'data': data}
+            else:
+                return {'success': False, 'data': data, 'msg': f'Directory {directory} does not exist!'}
+        except Exception as exp:
+            return {'success': False, 'data': data, 'msg': str(exp)}
