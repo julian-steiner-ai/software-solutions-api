@@ -49,4 +49,4 @@ if __name__ == "__main__":
     context = ssl.SSLContext()
     context.load_cert_chain(cert_file, key_file)
 
-    app.run(host='0.0.0.0', ssl_context='adhoc')
+    app.run(ssl_context=context)
