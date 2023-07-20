@@ -8,7 +8,7 @@ from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 
-from cowfeedcalculator.cowfeedcalculator import CowFeedCalculator
+from .cowfeedcalculator.cowfeedcalculator import CowFeedCalculator
 
 app = Flask(__name__)
 CORS(app)
