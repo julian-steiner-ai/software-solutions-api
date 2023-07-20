@@ -57,7 +57,7 @@ if __name__ == "__main__":
     cert_file = os.getenv('FLASK_CERT', '') # fullchain.pem
     key_file = os.getenv('FLASK_CERT_KEY', '') # privatekey.pem
 
-    ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-    ctx.load_cert_chain(cert_file, key_file)
+    context = ssl.SSLContext()
+    context.load_cert_chain(cert_file, key_file)
 
-    app.run(host='0.0.0.0', ssl_context=ctx)
+    app.run(host='0.0.0.0', ssl_context=(cert_file, key_file))
