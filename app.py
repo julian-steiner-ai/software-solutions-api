@@ -19,12 +19,25 @@ CORS(app)
 
 @app.route('/test', methods=['GET'])
 def test():
+
+    cert = ""
+    cert1 = ""
+
+    with open(os.path.exists(os.getenv('FLASK_CERT', '')), 'r', encoding='UTF-8') as file:
+        cert = file.read()
+
+    with open(os.path.exists(os.getenv('FLASK_CERT_KEY', '')), 'r', encoding='UTF-8') as file:
+        cert1 = file.read()
+        
+
     return jsonify(
         {
             'CERT_FILE': os.getenv('FLASK_CERT', ''),
             'KEY_FILE': os.getenv('FLASK_CERT_KEY', ''),
             'CERT_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT', '')),
-            'KEY_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT_KEY', ''))
+            'KEY_FILE_EXIST': os.path.exists(os.getenv('FLASK_CERT_KEY', '')),
+            'TEST': cert,
+            'TEST1': cert1
         }
     )
 
