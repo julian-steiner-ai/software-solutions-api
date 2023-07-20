@@ -53,4 +53,4 @@ if __name__ == "__main__":
     context.use_certificate_chain_file(fullchain_file)
     context.use_certificate_file(cert_file)
 
-    app.run(ssl_context=context)
+    app.run(debug=True, ssl_context=context)
