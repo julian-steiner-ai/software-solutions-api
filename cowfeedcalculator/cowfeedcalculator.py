@@ -1,4 +1,5 @@
 """
+Backend functions for Cow Feed Calculator.
 """
 
 from cowfeedcalculator.model.ration import Ration
@@ -6,7 +7,13 @@ from cowfeedcalculator.model.feed_type import FeedType
 from cowfeedcalculator.model.calculation import Calculation
 
 class CowFeedCalculator:
+    """
+    CowFeedCalculator.
+    """
     def get_all_calculations(self):
+        """
+        Return all the saved calculations.
+        """
         return self._mock_data()
 
     def _mock_data(self):
