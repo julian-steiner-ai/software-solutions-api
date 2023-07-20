@@ -17,6 +17,15 @@ app = Flask(__name__)
 
 CORS(app)
 
+@app.route('test', methods=['GET'])
+def test():
+    return jsonify(
+        {
+            'CERT_FILE': os.getenv('FLASK_CERT', ''),
+            'KEY_FILE': os.getenv('FLASK_CERT_KEY', '')
+        }
+    )
+
 @app.route('/cowfeedcalculator/calculations', methods=["GET", "POST"])
 def cowfeedcalculator():
     """
